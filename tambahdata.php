@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!doctype php>
+<php lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
   <body>
     <h2 align="center">Tambah Data Mahasiswa</h2>
     
-    <form align="center" action="mahasiswa.html" method="post"> 
+    <form align="center" action="mahasiswa.php" method=post></form>
     <table align="center" callpadding="5px">
         <tr>
             <td><label for="nama">Nama</td>
@@ -46,6 +46,6 @@
 
     </form>
 
-    <a align="center" href="mahasiswa.html" >Back</a>
+    <a align="center" href="mahasiswa.php" ></a>
   </body>
-</html>
+</php>
