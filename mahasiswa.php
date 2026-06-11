@@ -1,3 +1,14 @@
+<?php
+    require "fungsi.php";
+
+    $qmahasiswa = "SELECT * FROM mahasiswa";
+
+    $mahasiswas = tampildata($qmahasiswa); ///array associative
+
+?>
+
+
+
 <!doctype php>
 <php lang="en">
   <head>
@@ -35,16 +46,31 @@
         <th>Email</th>
         <th>No.hp</th>
         <th>Foto</th>
-        <th?>Aksi</th>
+        <th>Aksi</th>
       </tr>
+      <?php
+        $i = 1;
+       foreach($mahasiswas as $mhs)
+{
+  
+
+      ?>  
       <tr>
-        <td align="center"></td>
-        <td>Sisca Maudy Septiani</td>
-        <td>13182420057</td>
-        <td>Informatika</td>
-        <td>mody@gmail.com</td>
-        <td>0812222222222</td>
-        <td><img src="aset/image/mody.JPG" alt=Sisca width=50px></td>
+        <td align="center"><?= $i ?></td>
+        <td><?php echo $mhs["nama"] ?></td>
+        <td><?php echo $mhs["nim"] ?></td>
+        <td><?= $mhs["prodi"] ?></td>
+        <td><?= $mhs["email"] ?></td>
+        <td><?= $mhs["no_hp"] ?></td>
+        <td><img src="aset/image/<?= $mhs["foto"] ?>" width=50px></td>
+        <td> 
+          <a><button>Edit</button></a>
+          <a><button>Hapus</button></a>
+        </td>
       </tr>
+      <?php
+          $i++;
+         }
+       ?> 
   </body>
 </php>
