@@ -40,7 +40,7 @@ function tampildata($query) // proses data uang kita minta
 ///$mhs = mysqli_fetch_object($result);
 ///var_dump($mhs->nama);
 
-function tambahdata($data) 
+function tambahdata($data, $files) 
 {
     global $koneksi;
 
@@ -49,13 +49,22 @@ function tambahdata($data)
         $prodi = htmlspecialchars($data["prodi"]);
         $email = htmlspecialchars($data["email"]);
         $nohp = htmlspecialchars($data["nohp"]);
-        $foto = $data["foto"];
+        $namafoto = $files["name"];
+        $newnamafoto = date ('dmYhis_').$namafoto;
+        $tmpfoto = $files ["tmp_name"];
 
-        $query = "INSERT INTO mahasiswa (nama,nim,prodi,email,no_hp,foto) VALUES ('$nama','$nim','$prodi','$email','$nohp','$foto')";
+        $path = "aset/image/$newnamafoto";
+        
+        if (move_uploaded_file($tmpfoto,$path)){
+             $query = "INSERT INTO mahasiswa (nama,nim,prodi,email,no_hp,foto)
+             VALUES ('$nama','$nim','$prodi','$email','$nohp','$newnamafoto')";
 
         mysqli_query($koneksi,$query);
 
-        return mysqli_affected_rows ($koneksi);
+        }
+
+       return mysqli_affected_rows ($koneksi);
+
 
 }
 
@@ -65,6 +74,47 @@ function hapusdata($id)
 
     $query = "DELETE FROM mahasiswa WHERE id=$id";
     mysqli_query($koneksi,$query);
+
+    return mysqli_affected_rows($koneksi);
+}
+
+function ubahdata($data, $files, $id)
+{
+    global $koneksi;
+
+    $nama  = htmlspecialchars($data["nama"]);
+    $nim   = htmlspecialchars($data["nim"]);
+    $prodi = htmlspecialchars($data["prodi"]);
+    $email = htmlspecialchars($data["email"]);
+    $nohp  = htmlspecialchars($data["nohp"] ?? '');
+
+    // Foto
+    $foto = '';
+
+    if ($files["foto"]["error"] == 0) {
+
+        $namaFoto = $files["foto"]["name"];
+        $tmpFoto  = $files["foto"]["tmp_name"];
+
+        $fotoBaru = date('dmYHis_') . $namaFoto;
+
+        move_uploaded_file(
+            $tmpFoto,
+            "aset/image/" . $fotoBaru
+        );
+
+        $foto = ", foto='$fotoBaru'";
+    }
+
+    $query = "UPDATE mahasiswa SET
+                nama='$nama',
+                nim='$nim',
+                prodi='$prodi',
+                email='$email',
+                no_hp='$nohp'
+              WHERE id='$id'";
+
+    mysqli_query($koneksi, $query);
 
     return mysqli_affected_rows($koneksi);
 }
