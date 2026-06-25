@@ -51,7 +51,7 @@
       <?php
         $i = 1;
        foreach($mahasiswas as $mhs)
-{
+        {
   
 
       ?>  
@@ -64,8 +64,8 @@
         <td><?= $mhs["no_hp"] ?></td>
         <td><img src="aset/image/<?= $mhs["foto"] ?>" width=50px></td>
         <td> 
-          <a><button>Edit</button></a>
-          <a><button>Hapus</button></a>
+          <a href="editdata.php"><button>Edit</button></a>
+          <a href="hapusdata.php?id=<?= $mhs['id'] ?>" onclick="return confirm('YAKEUNNN?')"><button>Hapus</button></a>
         </td>
       </tr>
       <?php
