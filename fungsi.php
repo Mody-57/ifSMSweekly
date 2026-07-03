@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $koneksi = mysqli_connect("localhost:3306","root","sisca1234","smweekly");
 
@@ -118,4 +119,72 @@ function ubahdata($data, $files, $id)
 
     return mysqli_affected_rows($koneksi);
 }
+
+function register($data)
+{
+    global $koneksi;
+
+    $username = strtolower (stripcslashes($data["username"]));
+    $password1 = mysqli_real_escape_string($koneksi, $data["password1"]);
+    $password2 = mysqli_real_escape_string($koneksi, $data["password2"]);
+
+    if ($password1 != $password2)
+
+        {
+            echo "<script>
+                alert('Konfirmasi password salah!');
+            </script>";
+        }
+        $result= mysqli_query($koneksi, "SELECT * FROM user WHERE username = '$username'");
+
+        if(mysqli_fetch_assoc($result))
+            {
+            echo "<script>
+                alert('Username sudah terdaftar!');
+            </script>";
+            return false;
+            }
+
+
+
+
+
+
+        $password_has = password_hash($password1, PASSWORD_DEFAULT);
+        $query = "INSERT INTO user (username,password)
+        VALUES ('$username', '$password_hash')";
+
+        mysqli_query($koneksi,$query);
+
+        return mysqli_affected_rows($koneksi);
+}
+    function login($data)
+    {
+        global $koneksi;
+
+        $username = strtolower(stripcslashes ($data["username"]));
+        $password = $data["password"];
+
+        $query = "SELECT * FROM user WHERE username='$username'";
+
+        mysqli_query($koneksi, $query);
+
+        if(mysqli_num_rows($result) == 1)
+            {
+                ///username ada
+            $row = mysqli_fetch_assoc ($result);
+
+               if ( password_verify($password,$row ["password"] ))
+                {
+                    ///password benar
+                    $_SESSION["login"] = true;
+                    header("Location: mahasiswa.php");
+                    exit;
+                }
+            }
+
+            return $error = true;
+    }
+
+
 ?>

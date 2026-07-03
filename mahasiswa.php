@@ -1,5 +1,12 @@
 <?php
-    require "fungsi.php";
+   require "fungsi.php";
+   
+    if(!isset($_SESSION["login"]))
+      {
+        header("Location: login.php");
+        exit;
+      }
+    
 
     $qmahasiswa = "SELECT * FROM mahasiswa";
 
@@ -17,7 +24,9 @@
     <title>Data Mahasiswa | INFORMATIKA</title>
   </head>
   <body>
+    
     <h1 align="center">INFORMATIKA</h1>
+    <a href="logout.php">Logout</a>
     <center>
       <img
         src="https://w7.pngwing.com/pngs/802/825/png-transparent-redbubble-polite-cat-meme-funny-cat-meme-thumbnail.png"
@@ -30,6 +39,7 @@
         <td><a href="profile.php">Profile </a></td>
         <td><a href="contact.php">Contact </a></td>
         <td><a href="mahasiswa.php">Data Mahasiswa </a></td>
+        
       </tr>
     </table>
     <h2>Data Mahasiswa</h2>
